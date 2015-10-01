@@ -108,6 +108,9 @@ function draw() {
 	if (rCount == 6) {
 		rCount = 0;
 	}
+		ctx.font = "15px Arial";
+		ctx.fillStyle = "#ffffff";
+		ctx.fillText("Press space for controls", canvas.width/2, 30);
 	// If controls are enabled, draw them
 	if (drawCtrl) {
 		drawControls();
