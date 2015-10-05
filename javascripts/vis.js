@@ -1,9 +1,12 @@
 'use strict';
 // Todo
-// Dynamic audio sources
-// Hex to text color statement
-// Space to play
-
+// Incremental size of bars (.5)
+// Incremental amplification
+// Reverse mode (bars on top upside down)
+// Multiple audio files (dear god please)
+// Control overhaul
+// Voice visualiztion
+// UI overhaul
 const
 canvas = document.querySelector('canvas');
 const
@@ -20,6 +23,7 @@ var drawColor = '#ff0000';
 var backColor = "#000";
 var drawCtrl = false;
 var len;
+var amp;
 var colorArray = [ "#ff0000", "#008000", "#0000FF", "#FFFF00", "#ffffff",
 		"#000000", ];
 var bcolorArray = [ "#000000", "#FFFF00", "#0000FF", "#008000", "#ff0000",
@@ -39,7 +43,7 @@ function draw() {
 	// Change 256 to whatever for bar change
 	for (var i = 0; i < len; i++) {
 		var x = width * i;
-		var height = dataArray[i] * 5;
+		var height = dataArray[i] * amp;
 		ctx.fillRect(x, canvas.height - height, width, height);
 	}
 	// These if statements are to increase the bar count
@@ -108,6 +112,41 @@ function draw() {
 	if (rCount == 6) {
 		rCount = 0;
 	}
+	//Checks for amp values
+	if(aCount==0){
+		amp=.5;
+	}
+	if(aCount==1){
+		amp=1;
+	}
+	if(aCount==2){
+		amp=2;
+	}
+	if(aCount==3){
+		amp=5;
+	}
+	if(aCount==4){
+		aCount=0;
+	}
+	//Resets to default
+	if(jCount!=0){
+		eCount=0;
+		aCount=3;
+		//3 is more definable to look at, defaults to amp mod 5
+		rCount=0;
+		jCount=0;
+		barCnt=0;
+	}
+	//Pause function
+	if(sCount==0){
+		myAudio.play();
+	}
+	if(sCount==1){
+		myAudio.pause();
+	}
+	if(sCount==2){
+		sCount=0;
+	}
 		ctx.font = "15px Arial";
 		ctx.fillStyle = "#ffffff";
 		ctx.fillText("Press space for controls", canvas.width/2, 30);
@@ -120,12 +159,40 @@ function draw() {
 		ctx.fillStyle = "#ffffff";
 		ctx.fillText("CONTROLS", 0, 10);
 		ctx.fillText("E   Change Bar Color ", 0, 20);
-		ctx.fillText("Current Color:  " + drawColor, 0, 30);
+		ctx.fillText("Current Color:  " + convertColor(drawColor), 0, 30);
 		ctx.fillText("R   Change Background Color ", 0, 40);
-		ctx.fillText("Current Color:  " + backColor, 0, 50);
+		ctx.fillText("Current Color:  " + convertColor(backColor), 0, 50);
 		ctx.fillText("1  Cycle bar count", 0, 60);
 		ctx.fillText("Current bar amount:  " + len, 0, 70);
+		ctx.fillText("A  Change amplification of bars", 0, 80);
+		ctx.fillText("Current amp mod: "+amp, 0, 90)
+		ctx.fillText("J  Reset to defaults", 0, 100);
+		ctx.fillText("S  Pause/Play", 0, 110);
 	}
+	function convertColor(color){
+		[ "#ff0000", "#008000", "#0000FF", "#FFFF00", "#ffffff",
+		"#000000", ];
+		if(color=="#ff0000"){
+			return "Red";
+		}
+		else if(color=="#008000"){
+			return "Green";
+		}		
+		else if(color=="#FFFF00"){
+			return "Yellow";
+		}		
+		else if(color=="#0000FF"){
+			return "Blue";
+		}
+		else if(color=="#ffffff"){
+			return "White";
+		}
+		else if(color=="#000000"){
+			return "Black";
+		}
+	}
+	
+	
 	window.requestAnimationFrame(draw);
 }
 
@@ -141,7 +208,10 @@ function main() {
 }
 var barCnt = 0;
 var eCount = 0;
+var aCount= 3;
 var rCount = 0;
+var jCount=0;
+var sCount=0;
 function checkKey(e) {
 	console.log(e.keyCode);
 	if (e.keyCode == 32) {
@@ -152,16 +222,29 @@ function checkKey(e) {
 	if (e.keyCode == 49) {
 		console.log("1 pressed!");
 		barCnt++;
-		console.log(barCnt);
+		console.log("bar count"+barCnt);
 	}
 	if (e.keyCode == 69) {
 		console.log("e pressed!");
 		eCount++;
-		console.log(eCount);
+		console.log("e count:"+eCount);
 	}
 	if (e.keyCode == 82) {
 		console.log("r pressed!");
 		rCount++;
-		console.log(rCount);
+		console.log("r count: "+rCount);
+	}
+	if(e.keyCode==65){
+		console.log("a pressed!");
+		aCount++;
+		console.log("a count: "+aCount);
+	}
+	if(e.keyCode==74){
+		console.log("j pressed!");
+		jCount++;
+	}
+	if(e.keyCode==83){
+		console.log("s pressed!");
+		sCount++;
 	}
 }
