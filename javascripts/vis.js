@@ -1,11 +1,7 @@
 'use strict';
 // Todo
-// Incremental size of bars (.5)
-// Incremental amplification
 // Reverse mode (bars on top upside down)
 // Multiple audio files (dear god please)
-// Control overhaul
-// Voice visualiztion
 // UI overhaul
 const
 canvas = document.querySelector('canvas');
@@ -28,6 +24,7 @@ var colorArray = [ "#ff0000", "#008000", "#0000FF", "#FFFF00", "#ffffff",
 		"#000000", ];
 var bcolorArray = [ "#000000", "#FFFF00", "#0000FF", "#008000", "#ff0000",
 		"#ffffff" ];
+
 function draw() {
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
@@ -149,7 +146,7 @@ function draw() {
 	}
 		ctx.font = "15px Arial";
 		ctx.fillStyle = "#ffffff";
-		ctx.fillText("Press space for controls", canvas.width/2, 30);
+		ctx.fillText("Press 'c' for controls", canvas.width/2, 30);
 	// If controls are enabled, draw them
 	if (drawCtrl) {
 		drawControls();
@@ -158,16 +155,16 @@ function draw() {
 		ctx.font = "12px Arial";
 		ctx.fillStyle = "#ffffff";
 		ctx.fillText("CONTROLS", 0, 10);
-		ctx.fillText("E   Change Bar Color ", 0, 20);
-		ctx.fillText("Current Color:  " + convertColor(drawColor), 0, 30);
-		ctx.fillText("R   Change Background Color ", 0, 40);
-		ctx.fillText("Current Color:  " + convertColor(backColor), 0, 50);
-		ctx.fillText("1  Cycle bar count", 0, 60);
-		ctx.fillText("Current bar amount:  " + len, 0, 70);
-		ctx.fillText("A  Change amplification of bars", 0, 80);
-		ctx.fillText("Current amp mod: "+amp, 0, 90)
-		ctx.fillText("J  Reset to defaults", 0, 100);
-		ctx.fillText("S  Pause/Play", 0, 110);
+		ctx.fillText("Q                  Change Bar Color ", 0, 20);
+		ctx.fillText("E                  Change Background Color ", 0, 30);
+		ctx.fillText("W                  Cycle bar count", 0, 40);
+		ctx.fillText("A                  Change amplification of bars", 0, 50);
+		ctx.fillText("R                  Reset to defaults", 0, 60);
+		ctx.fillText("Spacebar   Pause/Play", 0, 70);
+		ctx.fillText("Current Color:  " + convertColor(drawColor), 0, 80);
+		ctx.fillText("Current Color:  " + convertColor(backColor), 0, 90);
+		ctx.fillText("Current bar amount:  " + len, 0, 100);
+		ctx.fillText("Current amp mod: "+amp, 0, 110)
 	}
 	function convertColor(color){
 		[ "#ff0000", "#008000", "#0000FF", "#FFFF00", "#ffffff",
@@ -212,39 +209,42 @@ var aCount= 3;
 var rCount = 0;
 var jCount=0;
 var sCount=0;
+var interval=200;
+//hidden randomized mode
+function randomize(){
+	interval=Math.floor((Math.random()*500)+100);
+	drawColor=colorArray[Math.floor((Math.random()*5)+1)];
+	backColor=bcolorArray[Math.floor((Math.random()*5)+1)];
+}
+
 function checkKey(e) {
 	console.log(e.keyCode);
-	if (e.keyCode == 32) {
+	if (e.keyCode == 67) {
 		e.preventDefault();
-		console.log("Space pressed!");
 		drawCtrl = !drawCtrl;
 	}
-	if (e.keyCode == 49) {
-		console.log("1 pressed!");
+	if (e.keyCode == 87) {
 		barCnt++;
-		console.log("bar count"+barCnt);
+	}
+	if (e.keyCode == 81) {
+	//Bar color
+		eCount++;
 	}
 	if (e.keyCode == 69) {
-		console.log("e pressed!");
-		eCount++;
-		console.log("e count:"+eCount);
-	}
-	if (e.keyCode == 82) {
-		console.log("r pressed!");
+	//Back Color
 		rCount++;
-		console.log("r count: "+rCount);
 	}
 	if(e.keyCode==65){
-		console.log("a pressed!");
 		aCount++;
-		console.log("a count: "+aCount);
 	}
-	if(e.keyCode==74){
-		console.log("j pressed!");
+	if(e.keyCode==82){
+	//Default
 		jCount++;
 	}
-	if(e.keyCode==83){
-		console.log("s pressed!");
+	if(e.keyCode==32){
 		sCount++;
+	}
+	if(e.keyCode==74){
+		setInterval(randomize, interval);
 	}
 }
