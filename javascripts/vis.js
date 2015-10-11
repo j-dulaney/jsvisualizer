@@ -147,6 +147,7 @@ function draw() {
 		ctx.font = "15px Arial";
 		ctx.fillStyle = "#ffffff";
 		ctx.fillText("Press 'c' for controls", canvas.width/2, 30);
+		ctx.fillText("Song: Ultralounge (incompetech.com)", canvas.width-250, 30);
 	// If controls are enabled, draw them
 	if (drawCtrl) {
 		drawControls();

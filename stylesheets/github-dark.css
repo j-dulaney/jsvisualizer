@@ -29,6 +29,8 @@
   color: #9774cb;
 }
 
+
+
 .pl-s .pl-s1 /* string source */,
 .pl-smi      /* storage.modifier.import, storage.modifier.package, storage.type.java, variable.other, variable.parameter.function */ {
   color: #ddd;
