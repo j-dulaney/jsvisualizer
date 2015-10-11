@@ -242,6 +242,7 @@ function checkKey(e) {
 		jCount++;
 	}
 	if(e.keyCode==32){
+		e.preventDefault();
 		sCount++;
 	}
 	if(e.keyCode==74){
